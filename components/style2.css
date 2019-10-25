@@ -1,0 +1,469 @@
+
+<style type="text/css">
+  @import url(https://fonts.googleapis.com/css?family=Oswald:300);
+* {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #1f323e;
+  background: radial-gradient(ellipse cover at 80% 0%, #426168 0%, rgba(49, 67, 74, 0.1) 100%), radial-gradient(ellipse cover at 20% 100%, #080d11 0%, #243a43 100%);
+}
+
+body {
+  font-family: 'Oswald', sans-serif;
+    overflow-y: scroll; overflow-x:hidden;
+}
+
+video {
+  }
+
+/* video container */
+.videoContainer {
+  width: auto;
+  height:auto;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+ 
+  margin-top: -23px;
+  object-fit: cover;
+}
+
+.videoContainer:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  z-index: 6;
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+/* video caption css */
+.caption {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 5px 10px;
+  color: #ddd;
+  font-size: 14px;
+  font-weight: 300;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.4);
+  text-transform: uppercase;
+  border-radius: 6px 6px 0 0;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+}
+
+/*** VIDEO CONTROLS CSS ***/
+/* control holder */
+.control {
+  color: #ccc;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 360px;
+  z-index: 5;
+  display: none;
+  width: 100%;
+  align-content: center;
+ }
+
+/* control bottom part */
+.btmControl {
+  clear: both;
+}
+
+.control .btnPlay {
+  float: left;
+  width: 34px;
+  height: 30px;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  border-radius: 6px 0 0 6px;
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.control .icon-play {
+  background: url(https://s.cdpn.io/6035/vp_sprite.png) no-repeat -11px 0;
+  width: 6px;
+  height: 9px;
+  display: block;
+  margin: 4px 0 0 8px;
+}
+
+.control .icon-pause {
+  background: url(https://s.cdpn.io/6035/vp_sprite.png) no-repeat -34px -1px;
+  width: 8px;
+  height: 9px;
+  display: block;
+  margin: 4px 0 0 8px;
+}
+
+.control .selected {
+  font-size: 15px;
+  color: #ccc;
+}
+
+.control .sound {
+  width: 30px;
+  height: 30px;
+  float: left;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  border-left: none;
+  box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
+.control .icon-sound {
+  background: url(https://s.cdpn.io/6035/vp_sprite.png) no-repeat -19px 0;
+  width: 13px;
+  height: 10px;
+  display: block;
+  margin: 5px 0 0 -2px;
+}
+
+.control .muted .icon-sound {
+  width: 7px !important;
+}
+
+.control .btnFS {
+  width: 30px;
+  height: 30px;
+  border-radius: 0 6px 6px 0;
+  float: left;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  border-left: none;
+  box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.control .icon-fullscreen {
+  background: url(https://s.cdpn.io/6035/vp_sprite.png) no-repeat 0 0;
+  width: 10px;
+  height: 10px;
+  display: block;
+  margin: 5px 0 0 -2px;
+
+}
+
+/* PROGRESS BAR CSS */
+/* Progress bar */
+.progress-bar {
+  height: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  border-left: none;
+  box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.5);
+  float: left;  
+ }
+
+.progress {
+   height: 5px;
+  position: relative;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.4);
+  /* fallback */
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 1px 1px black;
+  border-radius: 10px;
+    width: 1100px;
+
+}
+
+.progress span {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  border-radius: 10px;
+
+}
+
+.timeBar {
+  z-index: 10;
+  width: 0;
+  background: -webkit-linear-gradient(top, #6bcce2 0%, #1da3d0 100%);
+  box-shadow: 0 0 7px rgba(107, 204, 226, 0.5);
+}
+
+.bufferBar {
+  z-index: 5;
+  width: 0;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* VOLUME BAR CSS */
+/* volume bar */
+.volume {
+  position: relative;
+  cursor: pointer;
+  width: 70px;
+  height: 10px;
+  float: right;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.volumeBar {
+  display: block;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #eee;
+  z-index: 10;
+
+}
+/*
+P.S: if you like my content maybe you will become a donator and donate some money? That helps me to create new awesome materials. https://www.paypal.me/melnik909
+*/
+
+/*
+=====
+LEVEL 1. RESET STYLES
+=====
+*/
+
+.field{
+  --uiFieldPlaceholderColor: var(--fieldPlaceholderColor, #767676);
+}
+
+.field__input{ 
+  background-color: transparent;
+  border-radius: 0;
+  border: none;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  font-family: inherit;
+  font-size: 1em;
+}
+
+.field__input:focus::-webkit-input-placeholder{
+  color: var(--uiFieldPlaceholderColor);
+}
+
+.field__input:focus::-moz-placeholder{
+  color: var(--uiFieldPlaceholderColor);
+  opacity: 1;
+}
+
+/*
+=====
+LEVEL 2. CORE STYLES
+=====
+*/
+
+.a-field{
+  display: inline-block;
+}
+
+.a-field__input{ 
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.a-field__input:focus{
+  outline: none;
+}
+
+/*
+=====
+LEVEL 3. PRESENTATION STYLES
+=====
+*/
+
+/* a-field */
+
+.a-field{
+  --uiFieldHeight: var(--fieldHeight, 40px);  
+  --uiFieldBorderWidth: var(--fieldBorderWidth, 2px);
+  --uiFieldBorderColor: var(--fieldBorderColor);
+
+  --uiFieldFontSize: var(--fieldFontSize, 1em);
+  --uiFieldHintFontSize: var(--fieldHintFontSize, 1em);
+
+  --uiFieldPaddingRight: var(--fieldPaddingRight, 15px);
+  --uiFieldPaddingBottom: var(--fieldPaddingBottom, 15px);
+  --uiFieldPaddingLeft: var(--fieldPaddingLeft, 15px);   
+
+  position: relative;
+  box-sizing: border-box;
+  font-size: var(--uiFieldFontSize);
+  padding-top: 1em;  
+}
+
+.a-field .a-field__input{
+  height: var(--uiFieldHeight);
+  padding: 0 var(--uiFieldPaddingRight) 0 var(--uiFieldPaddingLeft);
+  border-bottom: var(--uiFieldBorderWidth) solid var(--uiFieldBorderColor);  
+}
+
+.a-field .a-field__input::-webkit-input-placeholder{
+  opacity: 0;
+  transition: opacity .2s ease-out;
+}
+
+.a-field .a-field__input::-moz-placeholder{
+  opacity: 0;
+  transition: opacity .2s ease-out;
+}
+
+.a-field .a-field__input:not(:placeholder-shown) ~ .a-field__label-wrap .a-field__label{
+  opacity: 0;
+  bottom: var(--uiFieldPaddingBottom);
+}
+
+.a-field .a-field__input:focus::-webkit-input-placeholder{
+  opacity: 1;
+  transition-delay: .2s;
+}
+
+.a-field .a-field__input:focus::-moz-placeholder{
+  opacity: 1;
+  transition-delay: .2s;
+}
+
+.a-field .a-field__label-wrap{
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--uiFieldHeight); 
+
+  pointer-events: none;
+  cursor: text;
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.a-field .a-field__label{
+  position: absolute;
+  left: var(--uiFieldPaddingLeft);
+  bottom: calc(50% - .5em);
+
+  line-height: 1;
+  font-size: var(--uiFieldHintFontSize);
+
+  pointer-events: none;
+  transition: bottom .2s cubic-bezier(0.9,-0.15, 0.1, 1.15), opacity .2s ease-out;
+  will-change: bottom, opacity;
+}
+
+.a-field .a-field__input:focus ~ .a-field__label-wrap .a-field__label{
+  opacity: 1;
+  bottom: var(--uiFieldHeight);
+}
+
+/* a-field_a1 */
+
+.a-field_a1 .a-field__input{
+  transition: border-color .2s ease-out;
+  will-change: border-color;
+}
+
+.a-field_a1 .a-field__input:focus{
+  border-color: var(--fieldBorderColorActive);
+}
+
+/* a-field_a2 */
+
+.a-field_a2 .a-field__label-wrap:after{
+  content: "";
+  box-sizing: border-box;
+  width: 0;
+  height: var(--uiFieldBorderWidth);
+  background-color: var(--fieldBorderColorActive);
+
+  position: absolute;
+  bottom: 0;
+  left: 0;  
+
+  will-change: width;
+  transition: width .285s ease-out;
+}
+
+.a-field_a2 .a-field__input:focus ~ .a-field__label-wrap:after{
+  width: 100%;
+}
+
+/* a-field_a3 */
+
+.a-field_a3{
+  padding-top: 1.5em;
+}
+
+.a-field_a3 .a-field__label-wrap:after{
+  content: "";
+  box-sizing: border-box;
+  width: 100%;
+  height: 0;
+
+  opacity: 0;
+  border: var(--uiFieldBorderWidth) solid var(--fieldBorderColorActive);
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  will-change: opacity, height;
+  transition: height .2s ease-out, opacity .2s ease-out;
+}
+
+.a-field_a3 .a-field__input:focus ~ .a-field__label-wrap:after{
+  height: 100%;
+  opacity: 1;
+}
+
+.a-field_a3 .a-field__input:focus ~ .a-field__label-wrap .a-field__label{
+  bottom: calc(var(--uiFieldHeight) + .5em);
+}
+
+/*
+=====
+LEVEL 4. SETTINGS
+=====
+*/
+
+.field{
+  --fieldBorderColor: #D1C4E9;
+  --fieldBorderColorActive: #673AB7;
+}
+  body{margin-top:20px;}
+
+.comment-wrapper .panel-body {
+    max-height:650px;
+    overflow:auto;
+}
+
+.comment-wrapper .media-list .media img {
+    width:64px;
+    height:64px;
+    border:2px solid #e5e7e8;
+}
+
+.comment-wrapper .media-list .media {
+    border-bottom:1px dashed #efefef;
+    margin-bottom:25px;
+}
+
+ </style>
